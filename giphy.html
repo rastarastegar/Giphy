@@ -7,7 +7,9 @@
 </head>
 
 <body>
-  <div id="buttons">
+<div class="container">
+<h1>Politician Gif Station</h1>
+ <div id="buttons">
     <button politician-name="vladimir putin">
       Vladimir Putin
     </button>
@@ -27,6 +29,17 @@
     <button politician-name="richard nixon">
       Richard Nixon
     </button>  
+    <!-- Rendered buttons will be added here  --> 
+    <form id="movie-form">
+            <label for="add-a-politician">Add a Politician</label>
+            <input type="text" id="politician-added">
+            <br>
+      
+            <!-- Button triggers new movie to be added -->
+            <input id="add-politician" type="submit" value="add-a-politician">
+          </form>
+    <br>
+    <hr>
 
     <!-- another way of creating button is $("<button>") -->
     <!-- another way of setting attribute $("<button>").attr(politician-name) -->
@@ -66,6 +79,7 @@
         });
     });
   </script>
+  </div>
 </body>
 
 </html>
