@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Giphy</title>
+</head>
+
+<body>
+  <div id="buttons">
+    <button politician-name="vladimir putin">
+      Vladimir Putin
+    </button>
+    
+    <button politician-name="donald trump">
+      Donald Trump
+    </button>
+
+    <button politician-name="bill clinton">
+      Bill Clinton
+    </button>
+
+    <button politician-name="Barack Obama">
+      Barack Obama
+    </button>
+
+    <button politician-name="richard nixon">
+      Richard Nixon
+    </button>  
+
+    <!-- another way of creating button is $("<button>") -->
+    <!-- another way of setting attribute $("<button>").attr(politician-name) -->
+  </div>
+
+  <div id="gifs-appear-here">  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $("button").on("click", function() {
+      var person = $(this).attr("politician-name");
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        person + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+        .then(function(response) {
+          var results = response.data;
+
+          for (var i = 0; i < results.length; i++) {
+            var gifDiv = $("<div class='item'>");
+
+            var rating = results[i].rating;
+
+            var p = $("<p>").text("Rating: " + rating);
+
+            var personImage = $("<img>");
+            personImage.attr("src", results[i].images.fixed_height.url);
+
+            gifDiv.prepend(p);
+            gifDiv.prepend(personImage);
+
+            $("#gifs-appear-here").prepend(gifDiv);
+          }
+        });
+    });
+  </script>
+</body>
+
+</html>
