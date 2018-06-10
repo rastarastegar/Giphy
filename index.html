@@ -7,78 +7,88 @@
 </head>
 
 <body>
-<div class="container">
-<h1>Politician Gif Station</h1>
- <div id="buttons">
-    <button politician-name="vladimir putin">
-      Vladimir Putin
-    </button>
-    
-    <button politician-name="donald trump">
-      Donald Trump
-    </button>
+  <div class="container">
+    <h1>Politician Gif Station</h1>
+    <div id="buttons">
+      <button politician-name="vladimir putin">
+        Vladimir Putin
+      </button>
 
-    <button politician-name="bill clinton">
-      Bill Clinton
-    </button>
+      <button politician-name="donald trump">
+        Donald Trump
+      </button>
 
-    <button politician-name="Barack Obama">
-      Barack Obama
-    </button>
+      <button politician-name="bill clinton">
+        Bill Clinton
+      </button>
 
-    <button politician-name="richard nixon">
-      Richard Nixon
-    </button>  
-    <!-- Rendered buttons will be added here  --> 
-    <form id="movie-form">
-            <label for="add-a-politician">Add a Politician</label>
-            <input type="text" id="politician-added">
-            <br>
-      
-            <!-- Button triggers new movie to be added -->
-            <input id="add-politician" type="submit" value="add-a-politician">
-          </form>
-    <br>
-    <hr>
+      <button politician-name="Barack Obama">
+        Barack Obama
+      </button>
 
-    <!-- another way of creating button is $("<button>") -->
-    <!-- another way of setting attribute $("<button>").attr(politician-name) -->
-  </div>
+      <button politician-name="richard nixon">
+        Richard Nixon
+      </button>
+      <!-- Rendered buttons will be added here  -->
+      <form id="politician-form">
+        <label for="politician-input">Add a Politician</label>
+        <input type="text" id="politician-input">
+        <br>
 
-  <div id="gifs-appear-here">  </div>
+        <!-- Button triggers new movie to be added -->
+        <input id="add-politician" type="submit" value="add-a-politician">
+      </form>
+      <br>
+      <hr>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script type="text/javascript">
-    $("button").on("click", function() {
-      var person = $(this).attr("politician-name");
-      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-        person + "&api_key=dc6zaTOxFJmzC&limit=10";
+      <!-- another way of creating button is $("<button>") -->
+      <!-- another way of setting attribute $("<button>").attr(politician-name) -->
+    </div>
 
-      $.ajax({
-        url: queryURL,
-        method: "GET"
-      })
-        .then(function(response) {
+    <div id="gifs-appear-here"> </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+       
+
+
+      $("button").on("click", function () {
+        var person = $(this).attr("politician-name");
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+          person + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+        
+        
+        .then(function (response) {
+          
           var results = response.data;
-
+          
           for (var i = 0; i < results.length; i++) {
             var gifDiv = $("<div class='item'>");
+                
+              var rating = results[i].rating;
+              
+              var p = $("<p>").text("Rating: " + rating);
+                  
+                var personImage = $("<img>");
+                personImage.attr("src", results[i].images.fixed_height.url);
+                
+                gifDiv.prepend(p);
+                gifDiv.prepend(personImage);
+                
+                $("#gifs-appear-here").prepend(gifDiv);
+              }
+            });
 
-            var rating = results[i].rating;
+         
 
-            var p = $("<p>").text("Rating: " + rating);
-
-            var personImage = $("<img>");
-            personImage.attr("src", results[i].images.fixed_height.url);
-
-            gifDiv.prepend(p);
-            gifDiv.prepend(personImage);
-
-            $("#gifs-appear-here").prepend(gifDiv);
-          }
-        });
-    });
-  </script>
+      });
+    </script>
   </div>
 </body>
 
