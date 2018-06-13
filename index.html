@@ -29,66 +29,79 @@
       <button politician-name="richard nixon">
         Richard Nixon
       </button>
-      <!-- Rendered buttons will be added here  -->
-      <form id="politician-form">
-        <label for="politician-input">Add a Politician</label>
-        <input type="text" id="politician-input">
-        <br>
+    </div>
+    <!-- Rendered buttons will be added here  -->
+    <form id="politician-form">
+      <label for="politician-input">Add a Politician</label>
+      <input type="text" id="politician-input">
+      <br>
 
-        <!-- Button triggers new movie to be added -->
-        <input id="add-politician" type="submit" value="add-a-politician">
+      <!-- Button triggers new movie to be added -->
+      <input id="add-politician" type="submit" value="add-a-politician">
+      <!--/ what is the value?>
       </form>
       <br>
       <hr>
 
       <!-- another way of creating button is $("<button>") -->
       <!-- another way of setting attribute $("<button>").attr(politician-name) -->
-    </div>
-
-    <div id="gifs-appear-here"> </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript">
-
-       
 
 
-      $("button").on("click", function () {
-        var person = $(this).attr("politician-name");
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-          person + "&api_key=dc6zaTOxFJmzC&limit=10";
+      <div id="gifs-appear-here"> </div>
 
-        $.ajax({
-          url: queryURL,
-          method: "GET"
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script type="text/javascript">
+
+
+        $("#add-politician").on("click", function (event) {
+          event.preventDefault();
+          var politicianName = $("#politician-input").val();
+          console.log(politicianName);
+          var politicianNames = $("<button>");
+          politicianNames.attr("politician-name", politicianName).text(politicianName);
+          $("#buttons").append(politicianNames);
+
         })
-        
-        
-        .then(function (response) {
-          
-          var results = response.data;
-          
-          for (var i = 0; i < results.length; i++) {
-            var gifDiv = $("<div class='item'>");
-                
-              var rating = results[i].rating;
-              
-              var p = $("<p>").text("Rating: " + rating);
-                  
+
+
+
+
+        $(document).on("click", "button", function () {
+          var person = $(this).attr("politician-name"); //????
+          console.log(this);
+          var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + person + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+          $.ajax({
+            url: queryURL,
+            method: "GET"
+          })
+
+
+            .then(function (response) {
+              console.log(response);
+              var results = response.data;
+
+              for (var i = 0; i < results.length; i++) {
+                var gifDiv = $("<div class='item'>");
+
+                var rating = results[i].rating;
+
+                var p = $("<p>").text("Rating: " + rating);
+
                 var personImage = $("<img>");
                 personImage.attr("src", results[i].images.fixed_height.url);
-                
+
                 gifDiv.prepend(p);
                 gifDiv.prepend(personImage);
-                
+
                 $("#gifs-appear-here").prepend(gifDiv);
               }
             });
 
-         
 
-      });
-    </script>
+
+        });
+      </script>
   </div>
 </body>
 
